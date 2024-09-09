@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Client {
     private static final String SERVER_ADDRESS = "localhost";
-    private static final int SERVER_PORT = 12345;
+    private static final int SERVER_PORT = 1234;
 
     public static void main(String[] args) {
         try {
@@ -34,16 +34,19 @@ public class Client {
             String userInput;
             while (true) {
                 userInput = scanner.nextLine();
-                out.println(userInput);
-                if(userInput.equalsIgnoreCase("Sair")) {
-                    socket.close();
+                if (userInput.equalsIgnoreCase("Sair")) {
+                    System.out.println("Saindo do chat...");
+                    out.println("Saiu do chat.");
                     scanner.close();
-                    break;
+                    socket.close();
+                    System.exit(0);
                 }
+                out.println(userInput);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }

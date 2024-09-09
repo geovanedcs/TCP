@@ -2,11 +2,18 @@ package br.edu.utfpr.pb.ad44s.server;
 
 import java.io.*;
 import java.net.*;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server {
     private static final int PORT = 1234;
     private static CopyOnWriteArrayList<ClientHandler> clients = new CopyOnWriteArrayList<>();
+    private static final Locale locale = new Locale("pt", "BR");
 
     public static void main(String[] args) {
         try {
@@ -65,16 +72,22 @@ public class Server {
                 Username = getUsername();
                 System.out.println("Usuário " + Username + " conectado.");
 
-                out.println("Bem vindo ao trabalho final de AD44s, " + Username + "!"); 
+                out.println("Bem vindo ao trabalho final de AD44s, " + Username + "!");
                 out.println("Digite sua mensagem:");
                 String inputLine;
+                LocalDateTime date = LocalDateTime.now();
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MMM/yyyy HH:mm:ss");
+                String formattedDate = dateFormat.format(date);
 
                 // Continue receiving messages from the client
                 while ((inputLine = in.readLine()) != null) {
-                    System.out.println("[" + Username + "]: " + inputLine); 
+                    if (inputLine.equalsIgnoreCase("Sair")) {
+                        System.out.println("[" + formattedDate + "][" + Username + " saiu do chat]");
+                    }
+                    System.out.println("[" + formattedDate + "][" + Username + "]: " + inputLine);
 
                     // Broadcast the message to all clients
-                    broadcast("[" + Username + "]: " + inputLine, this);
+                    broadcast("[" + formattedDate + "][" + Username + "]: " + inputLine, this);
                 }
 
                 // Remove the client handler from the list
