@@ -13,7 +13,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Server {
     private static final int PORT = 1234;
     private static CopyOnWriteArrayList<ClientHandler> clients = new CopyOnWriteArrayList<>();
-    private static final Locale locale = new Locale("pt", "BR");
 
     public static void main(String[] args) {
         try {
